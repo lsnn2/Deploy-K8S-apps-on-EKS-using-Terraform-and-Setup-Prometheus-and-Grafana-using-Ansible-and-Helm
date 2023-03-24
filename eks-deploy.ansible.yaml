@@ -1,0 +1,20 @@
+---
+- hosts: localhost
+  connection: local
+  become: yes
+  tasks:
+    - name: Basic deploy of terraform
+      community.general.terraform:
+        project_path: 'Project-ansible-terraform-EKS-Prometheus-Grafana/'
+        state: present
+        force_init: true
+    - name: Kubeconfig Setup
+      shell: |
+        cd Project-ansible-terraform-EKS-Prometheus-Grafana
+        aws eks --region $(terraform output -raw region) update-kubeconfig --name $(terraform output -raw cluster_name)
+    - name: Checking if cluster is up or not
+      command: kubectl --kubeconfig /root/.kube/config get all
+      retries: 3
+      delay: 30
+      register: result
+      until: result.rc == 0

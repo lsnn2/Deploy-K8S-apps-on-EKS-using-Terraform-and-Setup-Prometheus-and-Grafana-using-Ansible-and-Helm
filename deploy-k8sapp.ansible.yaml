@@ -1,0 +1,17 @@
+- hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+  - name: Kubeconfig Setup
+    command: |
+      cd Terraform-scripts
+      aws eks --region $(terraform output -raw region) update-kubeconfig --name $(terraform output -raw cluster_name)
+  - name: Checking if cluster is up or not
+    command: kubectl --kubeconfig /Users/siningli/.kube/config get all
+    retries: 3
+    delay: 30
+    register: result
+    until: result.rc == 0
+  - name: Setting up app
+    command: |
+      kubectl --kubeconfig /Users/siningli/.kube/config apply -k kube-app/

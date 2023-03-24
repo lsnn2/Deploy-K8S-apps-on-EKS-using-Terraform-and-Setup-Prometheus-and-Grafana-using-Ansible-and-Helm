@@ -1,0 +1,4 @@
+---
+- import_playbook: deploy-k8sapp.ansible.yaml
+- import_playbook: deploy-prometheus.ansible.yaml
+- import_playbook: deploy-grafana.ansible.yaml

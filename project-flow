@@ -1,0 +1,3 @@
+1. Deploy EKS infrastructure for kubernetes application using terraform.
+2. Setup kube config and deploy k8s application to EKS using ansible.
+3. Set up monitoring solutions prometheus and grafa for this k8s app using ansible.

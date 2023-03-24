@@ -1,0 +1,11 @@
+---
+- hosts: localhost
+  connection: local
+  tasks:
+  - name: Deleting k8s APP
+    shell: kubectl delete -k kube-app/ || true
+  - name: Deleting grafana
+    command: kubectl delete namespace grafana
+  - name: Deleting prometheus
+    command: kubectl delete namespace prometheus
+    
